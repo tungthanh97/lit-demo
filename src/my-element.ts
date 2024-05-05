@@ -22,6 +22,7 @@ export class MyElement extends LitElement {
       border: solid 1px gray;
       padding: 16px;
       max-width: 800px;
+      background-color: red;
     }
   `;
 
