@@ -2,13 +2,6 @@ import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { TW } from './utils/TailwindMixin';
 
-/**
- * An example element.
- *
- * @fires count-changed - Indicates when the count changes
- * @slot - This element has a slot
- * @csspart button - The button
- */
 @customElement('my-element')
 export class MyElement extends TW(LitElement) {
     /**
@@ -25,11 +18,11 @@ export class MyElement extends TW(LitElement) {
 
     override render() {
         return html`
-            <h1 class="text-green">${this.sayHello(this.name)}!</h1>
-            <button class="text-red bg-red" @click=${this._onClick} part="button">
+            <h1 class="text-gray-50">${this.sayHello(this.name)}!</h1>
+            <button class="bg-slate-400 text-red-400" @click=${this._onClick} part="button">
                 Click Count: ${this.count}
             </button>
-            <div class="bg-green">
+            <div class="bg-slate-50">
                 <slot></slot>
             </div>
         `;

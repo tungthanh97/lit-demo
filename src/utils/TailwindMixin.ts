@@ -1,5 +1,5 @@
 // import style from '../styles/main.css?inline';
-import globalCss from '../styles/global.css';
+import globalCss from '../../dist/global.css';
 
 const supportsAdoptedCSS = Array.isArray(document.adoptedStyleSheets);
 const cssContent = String(globalCss);
@@ -18,7 +18,6 @@ export const TW = <T extends LitMixin>(superClass: T): T => {
         }
 
         async createStylesheet() {
-            console.log('superClass', cssContent);
             if (supportsAdoptedCSS) {
                 if (!TailwindMixin.stylesheet) {
                     TailwindMixin.stylesheet = new CSSStyleSheet();

@@ -1,15 +1,9 @@
-import { tailwindTransform } from 'postcss-lit';
+/** @type {import('tailwindcss').Config} */
 
-export const content = {
-    files: ['src/**/*.{ts,css,js,html}'],
-    transform: {
-        ts: tailwindTransform,
+module.exports = {
+    content: ['./src/my-element.ts'],
+    theme: {
+        extend: {},
     },
+    plugins: [],
 };
-export const theme = {
-    container: {
-        center: true,
-    },
-    extend: {},
-};
-export const plugins = [];
