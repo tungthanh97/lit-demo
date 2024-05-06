@@ -2,8 +2,3 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-  .container {
-    @apply mx-auto px-4;
-  }
-}

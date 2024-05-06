@@ -1,44 +1,84 @@
-import { LitElement, html } from 'lit';
+import MessageRepository from '@/repositories/messageRepository';
+import { messageTemplate } from '@/templates/message.template';
+import { IMesssage, MESSAGE_ROLE } from '@/types/message';
+import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { TW } from './utils/TailwindMixin';
 
 @customElement('my-element')
 export class MyElement extends TW(LitElement) {
-    /**
-     * The name to say "Hello" to.
-     */
-    @property()
-    name = 'World';
+    static override styles = css`
+        :host {
+            display: block;
+            border: solid 1px gray;
+            padding: 16px;
+            max-width: 800px;
+            align-self: center;
+        }
+    `;
 
     /**
-     * The number of times the button has been clicked.
+     * Messages to display
      */
-    @property({ type: Number })
-    count = 0;
+    @property({ state: true })
+    private _messages: IMesssage[] = [];
+
+    /**
+     * Messages input
+     */
+    @property({ state: true })
+    private _messageInput = '';
+
+    override connectedCallback(): void {
+        // executed when the component is connected to the DOM
+        super.connectedCallback();
+
+        MessageRepository.getMessages().then((response) => {
+            console.log(response);
+            // this._messages = response.data;
+        });
+    }
+
+    async submitMessage(event: any) {
+        event.preventDefault();
+        this._messages.push({
+            id: String(this._messages.length + 1),
+            role: MESSAGE_ROLE.HUMAN,
+            content: this._messageInput,
+        });
+        const aiResponse = await MessageRepository.postMessage(this._messageInput);
+
+        if (!aiResponse.error)
+            this._messages.push({
+                id: String(this._messages.length + 1),
+                role: MESSAGE_ROLE.AI,
+                content: aiResponse.content,
+            });
+        this._messageInput = '';
+    }
+
+    inputHandler(event: any) {
+        this._messageInput = event.target.value;
+    }
 
     override render() {
         return html`
-            <h1 class="text-gray-50">${this.sayHello(this.name)}!</h1>
-            <button class="bg-slate-400 text-red-400" @click=${this._onClick} part="button">
-                Click Count: ${this.count}
-            </button>
-            <div class="bg-slate-50">
-                <slot></slot>
+            <div class="flex flex-col gap-3">
+                ${this._messages?.map((message) => messageTemplate(message))}
+                <form
+                    @submit="${(e: any) => this.submitMessage(e)}"
+                    class="w-full p-3 text-base flex gap-2"
+                >
+                    <input
+                        class="border border-solid grow p-2"
+                        value="${this._messageInput}"
+                        @input="${this.inputHandler}"
+                    />
+
+                    <button class="p-3 border border-solid w-max" type="submit">Send</button>
+                </form>
             </div>
         `;
-    }
-
-    private _onClick() {
-        this.count++;
-        this.dispatchEvent(new CustomEvent('count-changed'));
-    }
-
-    /**
-     * Formats a greeting
-     * @param name The name to say "Hello" to
-     */
-    sayHello(name: string): string {
-        return `Hello, ${name}`;
     }
 }
 
