@@ -10,7 +10,7 @@ This repository contains a chat element component that can be easily integrated 
 
    ```
 
-   git clone https://github.com/your-username/chat-element.git
+   git clone git@github.com:tungthanh97/lit-demo.git
 
    ```
 
@@ -18,7 +18,7 @@ This repository contains a chat element component that can be easily integrated 
 
    ```
 
-   cd chat-element
+   cd lit-demo
 
    ```
 
