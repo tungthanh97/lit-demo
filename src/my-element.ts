@@ -70,7 +70,7 @@ export class MyElement extends TW(LitElement) {
                     class="w-full p-3 text-base flex gap-2"
                 >
                     <input
-                        class="border border-solid grow p-2"
+                        class="border border-solid grow p-2 text-black"
                         value="${this._messageInput}"
                         @input="${this.inputHandler}"
                     />
