@@ -1,48 +1,46 @@
 {
-  "name": "@lit/lit-starter-ts",
-  "private": true,
-  "version": "2.0.1",
-  "description": "A simple web component",
-  "main": "my-element.js",
-  "module": "my-element.js",
-  "type": "module",
-  "scripts": {
-    "build": "rollup -c",
-    "build:watch": "tsc --watch",
-    "lint": "npm run lint:lit-analyzer && npm run lint:eslint",
-    "lint:eslint": "eslint 'src/**/*.ts'",
-    "format": "prettier \"**/*.{cjs,html,js,json,md,ts}\" --ignore-path ./.eslintignore --write",
-    "serve": "wds --watch",
-    "serve:prod": "MODE=prod npm run serve",
-    "checksize": "rollup -c ; cat my-element.bundled.js | gzip -9 | wc -c ; rm my-element.bundled.js"
-  },
-  "keywords": [
-    "web-components",
-    "lit-element",
-    "typescript",
-    "lit"
-  ],
-  "author": "Google LLC",
-  "license": "BSD-3-Clause",
-  "dependencies": {
-    "lit": "^3.0.0"
-  },
-  "devDependencies": {
-    "@open-wc/testing": "^3.1.5",
-    "@rollup/plugin-commonjs": "^25.0.7",
-    "@rollup/plugin-node-resolve": "^13.3.0",
-    "@rollup/plugin-typescript": "^11.1.6",
-    "@typescript-eslint/eslint-plugin": "^5.25.0",
-    "@typescript-eslint/parser": "^5.25.0",
-    "@web/dev-server": "^0.1.31",
-    "@web/dev-server-legacy": "^1.0.0",
-    "@webcomponents/webcomponentsjs": "^2.8.0",
-    "eslint": "^8.15.0",
-    "prettier": "^2.6.2",
-    "rollup": "^2.79.1",
-    "rollup-plugin-summary": "^1.4.3",
-    "rollup-plugin-terser": "^7.0.2",
-    "typescript": "~5.3.3"
-  },
-  "customElements": "custom-elements.json"
+    "name": "@lit/lit-starter-ts",
+    "private": true,
+    "version": "2.0.1",
+    "description": "A simple web component",
+    "main": "my-element.js",
+    "module": "my-element.js",
+    "type": "module",
+    "scripts": {
+        "build": "rollup -c",
+        "build:watch": "tsc --watch",
+        "lint": "npm run lint:lit-analyzer && npm run lint:eslint",
+        "lint:eslint": "eslint 'src/**/*.ts'",
+        "format": "prettier \"**/*.{cjs,html,js,json,md,ts}\" --ignore-path ./.eslintignore --write",
+        "serve": "wds --watch",
+        "serve:prod": "MODE=prod npm run serve"
+    },
+    "keywords": [
+        "web-components",
+        "lit-element",
+        "typescript",
+        "lit"
+    ],
+    "dependencies": {
+        "axios": "^1.6.8",
+        "lit": "^3.0.0",
+        "lodash.mapvalues": "^4.6.0"
+    },
+    "devDependencies": {
+        "@rollup/plugin-commonjs": "^25.0.7",
+        "@rollup/plugin-json": "^6.1.0",
+        "@rollup/plugin-node-resolve": "^13.3.0",
+        "@rollup/plugin-typescript": "^11.1.6",
+        "@types/lodash.mapvalues": "^4.6.9",
+        "@typescript-eslint/eslint-plugin": "^5.25.0",
+        "@typescript-eslint/parser": "^5.25.0",
+        "@web/dev-server": "^0.1.31",
+        "@web/dev-server-legacy": "^1.0.0",
+        "@webcomponents/webcomponentsjs": "^2.8.0",
+        "eslint": "^8.15.0",
+        "prettier": "^2.6.2",
+        "rollup": "^2.79.1",
+        "rollup-plugin-terser": "^7.0.2",
+        "typescript": "~5.3.3"
+    }
 }

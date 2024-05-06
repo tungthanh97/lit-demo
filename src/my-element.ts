@@ -1,69 +1,97 @@
-/**
- * @license
- * Copyright 2019 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
+import MessageRepository from '@/repositories/messageRepository';
+import { messageTemplate } from '@/templates/message.template';
+import { IMesssage, MESSAGE_ROLE } from '@/types/message';
+import { LitElement, html, css } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 
-import {LitElement, html, css} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
-
-/**
- * An example element.
- *
- * @fires count-changed - Indicates when the count changes
- * @slot - This element has a slot
- * @csspart button - The button
- */
 @customElement('my-element')
 export class MyElement extends LitElement {
-  static override styles = css`
-    :host {
-      display: block;
-      border: solid 1px gray;
-      padding: 16px;
-      max-width: 800px;
-      background-color: red;
-    }
-  `;
+    static override styles = css`
+        :host {
+            display: block;
+            border: solid 1px gray;
+            padding: 16px;
+            max-width: 800px;
+        }
 
-  /**
-   * The name to say "Hello" to.
-   */
-  @property()
-  name = 'World';
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
 
-  /**
-   * The number of times the button has been clicked.
-   */
-  @property({type: Number})
-  count = 0;
+        .message-input input {
+            width: 500px;
+            padding: 10px;
+            font-size: 16px;
+        }
 
-  override render() {
-    return html`
-      <h1>${this.sayHello(this.name)}!</h1>
-      <button @click=${this._onClick} part="button">
-        Click Count: ${this.count}
-      </button>
-      <slot></slot>
+        .message-input button {
+            height: 40px;
+            padding: 10px;
+        }
     `;
-  }
 
-  private _onClick() {
-    this.count++;
-    this.dispatchEvent(new CustomEvent('count-changed'));
-  }
+    /**
+     * Messages to display
+     */
+    @property({ state: true })
+    private _messages: IMesssage[] = [];
 
-  /**
-   * Formats a greeting
-   * @param name The name to say "Hello" to
-   */
-  sayHello(name: string): string {
-    return `Hello, ${name}`;
-  }
+    /**
+     * Messages input
+     */
+    @property({ state: true })
+    private _messageInput = '';
+
+    override connectedCallback(): void {
+        // executed when the component is connected to the DOM
+        super.connectedCallback();
+
+        MessageRepository.getMessages().then((response) => {
+            console.log(response);
+            // this._messages = response.data;
+        });
+    }
+
+    async submitMessage(event: any) {
+        event.preventDefault();
+        this._messages.push({
+            id: String(this._messages.length + 1),
+            role: MESSAGE_ROLE.HUMAN,
+            content: this._messageInput,
+        });
+        const aiResponse = await MessageRepository.postMessage(this._messageInput);
+
+        if (!aiResponse.error)
+            this._messages.push({
+                id: String(this._messages.length + 1),
+                role: MESSAGE_ROLE.AI,
+                content: aiResponse.content,
+            });
+        this._messageInput = '';
+    }
+
+    inputHandler(event: any) {
+        this._messageInput = event.target.value;
+    }
+
+    override render() {
+        return html`
+            <div class="container">
+                ${this._messages?.map((message) => messageTemplate(message))}
+                <form @submit="${(e: any) => this.submitMessage(e)}" class="message-input">
+                    <input value="${this._messageInput}" @input="${this.inputHandler}" />
+
+                    <button type="submit">Send</button>
+                </form>
+            </div>
+        `;
+    }
 }
 
 declare global {
-  interface HTMLElementTagNameMap {
-    'my-element': MyElement;
-  }
+    interface HTMLElementTagNameMap {
+        'my-element': MyElement;
+    }
 }
