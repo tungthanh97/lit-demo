@@ -24,6 +24,7 @@
         "lit"
     ],
     "dependencies": {
+        "axios": "^1.6.8",
         "lit": "^3.0.0",
         "lodash.mapvalues": "^4.6.0"
     },

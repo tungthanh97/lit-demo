@@ -12,5 +12,15 @@ export default {
         format: 'iife',
         name: 'MyCustomElement',
     },
-    plugins: [nodeResolve(), commonjs(), typescript(), terser(), json(), css()],
+    plugins: [
+        nodeResolve({
+            include: 'node_modules/**/*',
+            browser: true,
+        }),
+        commonjs(),
+        typescript(),
+        terser(),
+        json(),
+        css(),
+    ],
 };
